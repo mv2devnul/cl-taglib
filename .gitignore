@@ -1,0 +1,12 @@
+.*
+#*#
+*~
+!.gitignore
+*.so
+*.fas
+*.lx64fsl
+*.lib
+*.bak
+*.orig
+Queen
+taglib-ruby
