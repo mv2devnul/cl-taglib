@@ -1,8 +1,8 @@
 ;;; magic.lisp
 (in-package :cl-user)
-(defpackage #:magic
+(defpackage :magic
   (:export :init-magic :get-mime-string :finish-magic)
-  (:use #:cl #:ccl))
+  (:use :cl :ccl))
 (in-package :magic)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
