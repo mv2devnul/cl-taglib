@@ -1,12 +1,12 @@
 ;;; ltag.lisp
 (in-package :cl-user)
-(defpackage #:ltag
-  (:use #:cl #:ccl)
-  (:export #:open-audio-file #:close-audio-file #:save-audio-file #:with-open-audio-file
-		   #:bad-path #:bad-file #:bad-tag #:bad-audioproperties
-		   #:af-path #:af-type #:af-title #:af-artist #:af-album #:af-comment #:af-genre #:af-year #:af-track
-		   #:af-length #:af-bitrate #:af-samplerate #:af-channels))
-(in-package #:ltag)
+(defpackage :ltag
+  (:use :cl :ccl)
+  (:export :open-audio-file :close-audio-file :save-audio-file :with-open-audio-file
+		   :bad-path :bad-file :bad-tag :bad-audioproperties
+		   :af-path :af-type :af-title :af-artist :af-album :af-comment :af-genre :af-year :af-track
+		   :af-length :af-bitrate :af-samplerate :af-channels))
+(in-package :ltag)
 
 ;;; load up any shared libraries and interfaces we need
 (eval-when (:compile-toplevel :load-toplevel :execute)
@@ -72,7 +72,7 @@
   "map a mime string returned from magic to a taglib enum")
 
 ;;; Seems more trouble than it is worth, honestly..
-
+)
 
 ;;; some error conditions
 (define-condition bad-path () 
@@ -175,12 +175,15 @@
 		  read-only t)))
 
 ;;; convenience macro for opening, operating, and ensuring close of an audio file
-(defmacro with-open-audio-file ((var filename) &body body)
-  `(let ((,var (open-audio-file ,filename)))
-	 (unwind-protect
-		  (progn
-			,@body)
-	   (when ,var (close-audio-file ,var)))))
+;;; "args" is any valid open-audio-file parameter
+(defmacro with-open-audio-file ((var filename . args) &body body)
+  (alexandria:with-gensyms (stream)
+	`(let (,stream)
+	   (unwind-protect
+			(let ((,var (setq ,stream (open-audio-file ,filename ,@args))))
+			  (progn
+				,@body))
+		 (when ,stream (close-audio-file ,stream))))))
   
 (defmethod print-object ((me audio-file) stream)
   (with-slots (af-path af-type file tag audioproperties modified read-only) me
