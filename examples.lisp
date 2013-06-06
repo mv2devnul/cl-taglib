@@ -1,6 +1,8 @@
+;;; test calls...
+;;; Copyright (c) 2013, Mark VandenBrink. All rights reserved.
+
 (in-package :cl-user)
 
-;;; test calls...
 (defmacro redirect-output (filename &rest body)
   "if a lot of output is expected, use this macro to redirect *standard-output* to a file"
   `(if ,filename 

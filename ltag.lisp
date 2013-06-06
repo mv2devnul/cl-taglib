@@ -1,4 +1,6 @@
 ;;; ltag.lisp
+;;; Copyright (c) 2013, Mark VandenBrink. All rights reserved.
+
 (in-package :cl-user)
 (defpackage :ltag
   (:use :cl :ccl)

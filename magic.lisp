@@ -1,4 +1,6 @@
 ;;; magic.lisp
+;;; Copyright (c) 2013, Mark VandenBrink. All rights reserved.
+
 (in-package :cl-user)
 (defpackage :magic
   (:export :init-magic :get-mime-string :finish-magic)
